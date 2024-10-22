@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/screens/get_started_screen.dart'; // Import your Get Started screen
+import 'package:foodadoptionapp/screens/get_started_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

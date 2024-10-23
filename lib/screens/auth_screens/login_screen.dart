@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/animations/fade_in_animation.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/screens/atuh_screens/forget_password_screen.dart';
-import 'package:foodadoptionapp/screens/atuh_screens/register_screen.dart';
+import 'package:foodadoptionapp/screens/auth_screens/forget_password_screen.dart';
+import 'package:foodadoptionapp/screens/auth_screens/register_screen.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_social_sign_in_btn.dart';

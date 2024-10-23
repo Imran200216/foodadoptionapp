@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/animations/fade_in_animation.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/screens/atuh_screens/login_screen.dart';
+import 'package:foodadoptionapp/screens/auth_screens/login_screen.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
 import 'package:google_fonts/google_fonts.dart';

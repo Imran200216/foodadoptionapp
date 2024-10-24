@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/providers/bottom_nav_provider.dart';
 import 'package:foodadoptionapp/providers/get_started_provider.dart';
 import 'package:foodadoptionapp/screens/splash_screen.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
               useMaterial3: true,
             ),
             home: const SplashScreen(),

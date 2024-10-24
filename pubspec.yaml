@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^6.2.1
   shared_preferences: ^2.3.2
   persistent_bottom_nav_bar: ^6.2.1
+  toastification: ^2.3.0
 
 
 dev_dependencies:

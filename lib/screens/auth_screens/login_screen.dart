@@ -3,6 +3,7 @@ import 'package:foodadoptionapp/animations/fade_in_animation.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/screens/auth_screens/forget_password_screen.dart';
 import 'package:foodadoptionapp/screens/auth_screens/register_screen.dart';
+import 'package:foodadoptionapp/screens/bottom_nav.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_social_sign_in_btn.dart';
@@ -166,7 +167,10 @@ class LoginScreen extends StatelessWidget {
                   CustomAuthBtn(
                     btnText: "Login in",
                     onTap: () {
-                      // Handle sign-up logic here
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const BottomNav();
+                      }));
                     },
                   ),
                   const SizedBox(height: 8),

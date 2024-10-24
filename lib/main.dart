@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/auth_provider.dart';
 import 'package:foodadoptionapp/providers/bottom_nav_provider.dart';
 import 'package:foodadoptionapp/providers/get_started_provider.dart';
 import 'package:foodadoptionapp/screens/splash_screen.dart';
@@ -24,6 +25,11 @@ class MyApp extends StatelessWidget {
           /// bottom nav provider
           ChangeNotifierProvider(
             create: (context) => BottomNavProvider(),
+          ),
+
+          /// authentication provider
+          ChangeNotifierProvider(
+            create: (context) => AuthenticationProvider(),
           ),
         ],
         builder: (context, child) {

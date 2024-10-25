@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/providers/get_started_provider.dart';
+import 'package:foodadoptionapp/providers/screen_providers/get_started_provider.dart';
 import 'package:foodadoptionapp/screens/get_started_screens/get_started_screen1.dart';
 import 'package:foodadoptionapp/screens/get_started_screens/get_started_screen2.dart';
 import 'package:foodadoptionapp/screens/get_started_screens/get_started_screen3.dart';

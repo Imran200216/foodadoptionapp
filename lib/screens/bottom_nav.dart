@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/providers/bottom_nav_provider.dart';
+import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
 import 'package:foodadoptionapp/screens/bottom_nav_screens/add_food_donation_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav_screens/home_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav_screens/profile_screen.dart';

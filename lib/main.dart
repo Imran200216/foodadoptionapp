@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/providers/auth_provider.dart';
-import 'package:foodadoptionapp/providers/bottom_nav_provider.dart';
-import 'package:foodadoptionapp/providers/get_started_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
+import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
+import 'package:foodadoptionapp/providers/screen_providers/get_started_provider.dart';
 import 'package:foodadoptionapp/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -27,9 +29,19 @@ class MyApp extends StatelessWidget {
             create: (context) => BottomNavProvider(),
           ),
 
-          /// authentication provider
+          /// email authentication provider
           ChangeNotifierProvider(
-            create: (context) => AuthenticationProvider(),
+            create: (context) => EmailAuthenticationProvider(),
+          ),
+
+          /// guest authentication provider
+          ChangeNotifierProvider(
+            create: (context) => GuestAuthenticationProvider(),
+          ),
+
+          /// google authentication provider
+          ChangeNotifierProvider(
+            create: (context) => GoogleAuthenticationProvider(),
           ),
         ],
         builder: (context, child) {

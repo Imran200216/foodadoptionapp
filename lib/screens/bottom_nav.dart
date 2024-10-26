@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
-import 'package:foodadoptionapp/screens/bottom_nav_screens/add_food_donation_screen.dart';
+import 'package:foodadoptionapp/screens/bottom_nav_screens/add_homes_screen.dart';
+import 'package:foodadoptionapp/screens/bottom_nav_screens/enroll_feeds_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav_screens/home_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav_screens/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,8 +18,16 @@ class BottomNav extends StatelessWidget {
     /// screens
     List<Widget> buildScreens() {
       return [
+        /// home screen
         const HomeScreen(),
-        const AddFoodDonationScreen(),
+
+        /// add homes screen
+        const AddHomesScreen(),
+
+        /// add enroll feeds screen
+        const EnrollFeedsScreen(),
+
+        /// profile screen
         const ProfileScreen(),
       ];
     }
@@ -44,6 +53,17 @@ class BottomNav extends StatelessWidget {
         PersistentBottomNavBarItem(
           icon: const Icon(CupertinoIcons.add_circled),
           title: ("Add Serves"),
+          textStyle: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w700,
+          ),
+          activeColorPrimary: AppColors.primaryColor,
+          inactiveColorPrimary: AppColors.primaryColor,
+          activeColorSecondary: AppColors.secondaryColor,
+          inactiveColorSecondary: AppColors.primaryColor,
+        ),
+        PersistentBottomNavBarItem(
+          icon: const Icon(Icons.food_bank_outlined),
+          title: ("Enroll"),
           textStyle: GoogleFonts.montserrat(
             fontWeight: FontWeight.w700,
           ),

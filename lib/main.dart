@@ -5,6 +5,7 @@ import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.da
 import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/get_started_provider.dart';
+import 'package:foodadoptionapp/providers/screen_providers/home_carousel_provider.dart';
 import 'package:foodadoptionapp/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,11 @@ class MyApp extends StatelessWidget {
           /// google authentication provider
           ChangeNotifierProvider(
             create: (context) => GoogleAuthenticationProvider(),
+          ),
+
+          /// home carousel slider provider
+          ChangeNotifierProvider(
+            create: (context) => HomeCarouselProvider(),
           ),
         ],
         builder: (context, child) {

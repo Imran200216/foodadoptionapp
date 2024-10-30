@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

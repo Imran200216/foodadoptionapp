@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 
-class CustomAuthBtn extends StatelessWidget {
+class CustomCircularBtn extends StatelessWidget {
   final VoidCallback onTap;
-  final Widget btnWidget;
 
-  const CustomAuthBtn({
+  const CustomCircularBtn({
     super.key,
     required this.onTap,
-    required this.btnWidget,
   });
 
   @override
   Widget build(BuildContext context) {
-    /// media query
-    final sizeHeight = MediaQuery.of(context).size.height;
-    final sizeWidth = MediaQuery.of(context).size.width;
-
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: sizeWidth,
-        height: sizeHeight * 0.06,
+        height: 60,
+        width: 60,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          shape: BoxShape.circle,
           color: AppColors.primaryColor,
         ),
         child: Center(
-          child: btnWidget,
+          child: Icon(
+            Icons.arrow_forward,
+            color: AppColors.secondaryColor,
+            size: 30,
+          ),
         ),
       ),
     );

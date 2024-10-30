@@ -32,8 +32,6 @@ class EnrollFeedsScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-
-
           ],
         ),
       ),

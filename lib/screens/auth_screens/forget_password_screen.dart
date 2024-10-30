@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/animations/fade_in_animation.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/auth_providers/foreget_email_auth_provider.dart';
 import 'package:foodadoptionapp/screens/auth_screens/login_screen.dart';
-
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
+import 'package:foodadoptionapp/widgets/custom_loading_animation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// forget password provider
+    final forgetEmailPasswordProvider =
+        Provider.of<ForgetPasswordEmailAuthProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
@@ -100,13 +106,26 @@ class ForgetPasswordScreen extends StatelessWidget {
                   height: 30,
                 ),
 
-                /// Login in button
+                /// sent link button
                 FadeInAnimation(
                   delay: 2.3,
                   child: CustomAuthBtn(
-                    btnText: "Resent password link",
+                    btnWidget: forgetEmailPasswordProvider.isLoading
+                        ? CustomLoadingAnimation(
+                            loadingColor: AppColors.secondaryColor,
+                            loadingSize: 20,
+                          )
+                        : Text(
+                            "Resent password link",
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.secondaryColor,
+                              fontSize: 16,
+                            ),
+                          ),
                     onTap: () {
-                      // Handle sign-up logic here
+                      /// forget password functionality
+                      forgetEmailPasswordProvider.resetPassword(context);
                     },
                   ),
                 ),

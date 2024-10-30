@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:foodadoptionapp/screens/auth_screens/register_screen.dart';
+import 'package:foodadoptionapp/screens/auth_screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GetStartedScreen3 extends StatelessWidget {
@@ -65,7 +65,7 @@ class GetStartedScreen3 extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return const RegisterScreen();
+                return const LoginScreen();
               }));
             },
             child: Container(

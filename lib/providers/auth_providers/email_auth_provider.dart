@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/helpers/debounce_helper.dart';
 import 'package:foodadoptionapp/helpers/toast_helper.dart';
 import 'package:foodadoptionapp/modals/user_modal.dart';
-import 'package:foodadoptionapp/screens/avatar_screens/email_avatar_screen.dart';
+import 'package:foodadoptionapp/screens/avatar_screens/email_user_avatar_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav.dart';
 import 'package:foodadoptionapp/screens/get_started_screen.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmailAuthenticationProvider extends ChangeNotifier {
   /// debounce helper
   final DebounceHelper debounceHelper = DebounceHelper();
 
+  /// firebase authentication
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  /// loading state
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
 
+  /// controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController registerEmailController = TextEditingController();
   final TextEditingController registerPasswordController =
@@ -132,7 +134,8 @@ class EmailAuthenticationProvider extends ChangeNotifier {
 
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const EmailAvatarScreen()),
+          MaterialPageRoute(
+              builder: (context) => const EmailUserAvatarScreen()),
           (Route<dynamic> route) => false,
         );
       }
@@ -229,40 +232,6 @@ class EmailAuthenticationProvider extends ChangeNotifier {
         debounceHelper.activateDebounce(duration: const Duration(seconds: 2));
         ToastHelper.showErrorToast(
             context: context, message: "Sign Out Failed!");
-      }
-    }
-  }
-
-  final TextEditingController forgetPasswordEmailController =
-      TextEditingController();
-
-  /// reset password functionality
-  Future<void> resetPassword(BuildContext context) async {
-    try {
-      await _auth
-          .sendPasswordResetEmail(
-              email: forgetPasswordEmailController.text.trim())
-          .then((value) {
-        forgetPasswordEmailController.clear();
-
-        // Check for debouncing
-        if (!debounceHelper.isDebounced()) {
-          debounceHelper.activateDebounce(duration: const Duration(seconds: 2));
-          ToastHelper.showSuccessToast(
-              context: context,
-              message: "Password reset link sent! Check your email");
-        }
-
-        // Pushing back
-        Navigator.pop(context);
-      });
-    } catch (e) {
-      // Check for debouncing for error toast as well
-      if (!debounceHelper.isDebounced()) {
-        debounceHelper.activateDebounce(duration: const Duration(seconds: 2));
-        ToastHelper.showErrorToast(
-            context: context,
-            message: "Failed to send reset link. Try again later.");
       }
     }
   }

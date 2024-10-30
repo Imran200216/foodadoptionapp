@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/foreget_email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
@@ -43,6 +44,11 @@ class MyApp extends StatelessWidget {
           /// google authentication provider
           ChangeNotifierProvider(
             create: (context) => GoogleAuthenticationProvider(),
+          ),
+
+          /// forget email authentication provider
+          ChangeNotifierProvider(
+            create: (context) => ForgetPasswordEmailAuthProvider(),
           ),
 
           /// home carousel slider provider

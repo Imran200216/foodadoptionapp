@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomSocialSignInBtn extends StatelessWidget {
-  final String svgName;
-  final String btnText;
   final VoidCallback onTap;
+  final Widget svgWidget;
 
-  const CustomSocialSignInBtn(
-      {super.key,
-      required this.svgName,
-      required this.btnText,
-      required this.onTap});
+  const CustomSocialSignInBtn({
+    super.key,
+    required this.onTap,
+    required this.svgWidget,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class CustomSocialSignInBtn extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: sizeHeight * 0.07,
+        height: sizeHeight * 0.062,
         width: sizeWidth,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -32,30 +29,7 @@ class CustomSocialSignInBtn extends StatelessWidget {
               color: AppColors.primaryColor,
               width: 1,
             )),
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/images/svg/$svgName.svg",
-                height: 24,
-                width: 24,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(
-                width: 14,
-              ),
-              Text(
-                btnText,
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
+        child: svgWidget,
       ),
     );
   }

@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:foodadoptionapp/animations/fade_in_animation.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
 import 'package:foodadoptionapp/screens/auth_screens/forget_password_screen.dart';
 import 'package:foodadoptionapp/screens/auth_screens/register_screen.dart';
-import 'package:foodadoptionapp/screens/bottom_nav.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
+import 'package:foodadoptionapp/widgets/custom_loading_animation.dart';
 import 'package:foodadoptionapp/widgets/custom_social_sign_in_btn.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    /// email auth provider
+    final emailAuthProvider = Provider.of<EmailAuthenticationProvider>(context);
+
+    /// google auth provider
+    final googleAuthProvider =
+        Provider.of<GoogleAuthenticationProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
@@ -68,9 +79,41 @@ class LoginScreen extends StatelessWidget {
               FadeInAnimation(
                 delay: 1.6,
                 child: CustomSocialSignInBtn(
-                  svgName: "google-auth",
-                  btnText: "Continue with Google",
-                  onTap: () {},
+                  svgWidget: googleAuthProvider.isLoading
+                      ? Center(
+                          child: CustomLoadingAnimation(
+                            loadingColor: AppColors.primaryColor,
+                            loadingSize: 20,
+                          ),
+                        )
+                      : Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/svg/google-auth.svg",
+                                height: 24,
+                                width: 24,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(
+                                width: 14,
+                              ),
+                              Text(
+                                "Continue with Google",
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                  onTap: () {
+                    /// sign in with google functionality
+                    googleAuthProvider.signInWithGoogle(context);
+                  },
                 ),
               ),
 
@@ -120,6 +163,7 @@ class LoginScreen extends StatelessWidget {
               FadeInAnimation(
                 delay: 2.3,
                 child: CustomIconTextField(
+                  controller: emailAuthProvider.loginEmailController,
                   hintText: "Email Address",
                   prefixIcon: Icon(
                     Icons.alternate_email,
@@ -136,6 +180,7 @@ class LoginScreen extends StatelessWidget {
               FadeInAnimation(
                 delay: 2.6,
                 child: CustomIconTextField(
+                  controller: emailAuthProvider.loginPasswordController,
                   hintText: "Password",
                   prefixIcon: Icon(
                     Icons.lock_outline,
@@ -165,12 +210,22 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   /// Login in button
                   CustomAuthBtn(
-                    btnText: "Login in",
+                    btnWidget: emailAuthProvider.isLoading
+                        ? CustomLoadingAnimation(
+                            loadingColor: AppColors.secondaryColor,
+                            loadingSize: 20,
+                          )
+                        : Text(
+                            "Login in",
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.secondaryColor,
+                              fontSize: 16,
+                            ),
+                          ),
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const BottomNav();
-                      }));
+                      /// login functionality with email
+                      emailAuthProvider.loginWithEmailPassword(context);
                     },
                   ),
                   const SizedBox(height: 8),

@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/firebase_options.dart';
 import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/foreget_email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
@@ -14,7 +16,10 @@ import 'package:foodadoptionapp/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

@@ -80,36 +80,32 @@ class LoginScreen extends StatelessWidget {
                 delay: 1.6,
                 child: CustomSocialSignInBtn(
                   svgWidget: googleAuthProvider.isLoading
-                      ? Center(
-                          child: CustomLoadingAnimation(
-                            loadingColor: AppColors.primaryColor,
-                            loadingSize: 20,
+                      ? CustomLoadingAnimation(
+                        loadingColor: AppColors.primaryColor,
+                        loadingSize: 20,
+                      )
+                      : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/svg/google-auth.svg",
+                            height: 24,
+                            width: 24,
+                            fit: BoxFit.cover,
                           ),
-                        )
-                      : Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/svg/google-auth.svg",
-                                height: 24,
-                                width: 24,
-                                fit: BoxFit.cover,
-                              ),
-                              const SizedBox(
-                                width: 14,
-                              ),
-                              Text(
-                                "Continue with Google",
-                                style: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.primaryColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(
+                            width: 14,
                           ),
-                        ),
+                          Text(
+                            "Continue with Google",
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
                   onTap: () {
                     /// sign in with google functionality
                     googleAuthProvider.signInWithGoogle(context);

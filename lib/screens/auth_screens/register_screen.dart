@@ -80,36 +80,32 @@ class RegisterScreen extends StatelessWidget {
                   delay: 1.6,
                   child: CustomSocialSignInBtn(
                     svgWidget: guestAuthProvider.isLoading
-                        ? Center(
-                            child: CustomLoadingAnimation(
-                              loadingColor: AppColors.primaryColor,
-                              loadingSize: 20,
-                            ),
+                        ? CustomLoadingAnimation(
+                            loadingColor: AppColors.primaryColor,
+                            loadingSize: 20,
                           )
-                        : Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/svg/guest-auth.svg",
-                                  height: 24,
-                                  width: 24,
-                                  fit: BoxFit.cover,
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/svg/guest-auth.svg",
+                                height: 24,
+                                width: 24,
+                                fit: BoxFit.cover,
+                                color: AppColors.primaryColor,
+                              ),
+                              const SizedBox(
+                                width: 14,
+                              ),
+                              Text(
+                                "Sign up with Guest",
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
                                   color: AppColors.primaryColor,
+                                  fontSize: 16,
                                 ),
-                                const SizedBox(
-                                  width: 14,
-                                ),
-                                Text(
-                                  "Sign up with Guest",
-                                  style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primaryColor,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                     onTap: () {
                       guestAuthProvider.signInAnonymously(context);
@@ -126,35 +122,31 @@ class RegisterScreen extends StatelessWidget {
                   delay: 1.9,
                   child: CustomSocialSignInBtn(
                     svgWidget: googleAuthProvider.isLoading
-                        ? Center(
-                            child: CustomLoadingAnimation(
-                              loadingColor: AppColors.primaryColor,
-                              loadingSize: 20,
-                            ),
+                        ? CustomLoadingAnimation(
+                            loadingColor: AppColors.primaryColor,
+                            loadingSize: 20,
                           )
-                        : Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/images/svg/google-auth.svg",
-                                  height: 24,
-                                  width: 24,
-                                  fit: BoxFit.cover,
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/svg/google-auth.svg",
+                                height: 24,
+                                width: 24,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(
+                                width: 14,
+                              ),
+                              Text(
+                                "Sign up with Google",
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
                                 ),
-                                const SizedBox(
-                                  width: 14,
-                                ),
-                                Text(
-                                  "Sign up with Google",
-                                  style: GoogleFonts.montserrat(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.primaryColor,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                     onTap: () {
                       /// sign up with google

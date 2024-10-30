@@ -29,7 +29,9 @@ class CustomSocialSignInBtn extends StatelessWidget {
               color: AppColors.primaryColor,
               width: 1,
             )),
-        child: svgWidget,
+        child: Center(
+          child: svgWidget,
+        ),
       ),
     );
   }

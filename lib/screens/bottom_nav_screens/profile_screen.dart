@@ -1,13 +1,43 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/user_details_providers/user_email_details_provider.dart';
+import 'package:foodadoptionapp/providers/user_details_providers/user_google_details_provider.dart';
+import 'package:foodadoptionapp/providers/user_details_providers/user_guest_details_provider.dart';
+import 'package:foodadoptionapp/widgets/custom_cached_network_image.dart';
 import 'package:foodadoptionapp/widgets/custom_profile_list_tile.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null && user.isAnonymous) {
+      /// guest auth
+    } else if (user != null && user.email != null) {
+      /// email auth
+    } else {
+      /// google auth
+      Provider.of<UserGoogleDetailsProvider>(context, listen: false)
+          .fetchGoogleUserDetails(context);
+    }
+
+    /// user google details provider
+    final userGoogleDetailsProvider =
+        Provider.of<UserGoogleDetailsProvider>(context);
+
+    /// user email details provider
+    final userEmailDetailsProvider =
+        Provider.of<UserEmailDetailsProvider>(context);
+
+    /// user guest details provider
+    final userGuestDetailsProvider =
+        Provider.of<UserGuestDetailsProvider>(context);
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(
@@ -35,53 +65,16 @@ class ProfileScreen extends StatelessWidget {
                 height: 30,
               ),
 
-              Stack(
-                children: [
-                  /// avatar photo url
-                  Container(
-                    height: 150,
-                    width: 150,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=1966&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-
-                  /// edit icon
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        print("hello");
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: const Color(0xFF5646E5),
-                          border: Border.all(
-                            color: AppColors.secondaryColor,
-                            width: 1.4,
-                          ),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.edit,
-                            color: AppColors.secondaryColor,
-                            size: 22,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              ClipOval(
+                child: CustomCachedImage(
+                  height: 200,
+                  width: 200,
+                  imageUrl: userGoogleDetailsProvider.avatarPhotoURL,
+                  errorIconSize: 20,
+                  errorIconColor: AppColors.primaryColor,
+                  loadingIconColor: AppColors.primaryColor,
+                  loadingIconSize: 20,
+                ),
               ),
 
               const SizedBox(
@@ -91,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
               /// person name text
               Text(
                 textAlign: TextAlign.start,
-                "Imran B",
+                userGoogleDetailsProvider.nickName,
                 style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w700,
                   color: AppColors.primaryColor,
@@ -105,7 +98,7 @@ class ProfileScreen extends StatelessWidget {
               /// email address text
               Text(
                 textAlign: TextAlign.start,
-                "imran@gmail.com",
+                user!.email ?? "No email",
                 style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w600,
                   color: AppColors.textFieldHintTextColor,

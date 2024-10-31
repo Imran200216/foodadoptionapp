@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/helpers/toast_helper.dart';
 import 'package:foodadoptionapp/modals/user_modal.dart';
+import 'package:foodadoptionapp/screens/avatar_screens/google_user_avatar_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:foodadoptionapp/screens/bottom_nav.dart';
 import 'package:foodadoptionapp/screens/get_started_screen.dart';
 
 class GoogleAuthenticationProvider extends ChangeNotifier {
@@ -61,14 +61,18 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
 
         await _saveLoginState(true); // Save login state
 
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GoogleUserAvatarScreen(
+              userId: user.uid,
+            ),
+          ),
+        );
+
         ToastHelper.showSuccessToast(
           context: context,
           message: "Successfully signed in and saved to Firestore",
-        );
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNav()),
         );
 
         return user;
@@ -99,14 +103,14 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
 
       await _saveLoginState(false); // Clear login state
 
-      ToastHelper.showSuccessToast(
-        context: context,
-        message: "Successfully signed out",
-      );
-
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+      );
+
+      ToastHelper.showSuccessToast(
+        context: context,
+        message: "Successfully signed out",
       );
     } catch (e) {
       ToastHelper.showErrorToast(

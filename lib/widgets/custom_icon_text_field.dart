@@ -21,6 +21,11 @@ class CustomIconTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: GoogleFonts.montserrat(
+        color: AppColors.primaryColor,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
       controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
@@ -30,9 +35,13 @@ class CustomIconTextField extends StatelessWidget {
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
-        prefixIcon: prefixIcon,  // Using the prefixIcon here
-        suffixIcon: suffixIcon,  // Using the suffixIcon here if provided
-        contentPadding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 12.0), // Adjust padding to reduce height
+        prefixIcon: prefixIcon,
+        // Using the prefixIcon here
+        suffixIcon: suffixIcon,
+        // Using the suffixIcon here if provided
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14.0, horizontal: 12.0),
+        // Adjust padding to reduce height
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.textFieldBorderColor,

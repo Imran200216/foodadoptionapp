@@ -14,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// current user
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null && user.isAnonymous) {
@@ -65,16 +66,15 @@ class ProfileScreen extends StatelessWidget {
                 height: 30,
               ),
 
-              ClipOval(
-                child: CustomCachedImage(
-                  height: 200,
-                  width: 200,
-                  imageUrl: userGoogleDetailsProvider.avatarPhotoURL,
-                  errorIconSize: 20,
-                  errorIconColor: AppColors.primaryColor,
-                  loadingIconColor: AppColors.primaryColor,
-                  loadingIconSize: 20,
-                ),
+              CustomCachedImage(
+                height: 150,
+                width: 150,
+                fit: BoxFit.contain,
+                imageUrl: userGoogleDetailsProvider.avatarPhotoURL,
+                errorIconSize: 20,
+                errorIconColor: AppColors.primaryColor,
+                loadingIconColor: AppColors.primaryColor,
+                loadingIconSize: 20,
               ),
 
               const SizedBox(

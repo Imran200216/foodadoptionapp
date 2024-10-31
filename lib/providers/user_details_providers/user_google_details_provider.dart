@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:foodadoptionapp/helpers/toast_helper.dart';
@@ -17,59 +18,54 @@ class UserGoogleDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<UserModal> _guestUsers = [];
+  List<UserModal> _googleUsers = [];
 
-  List<UserModal> get guestUsers => _guestUsers;
+  List<UserModal> get googleUsers => _googleUsers;
 
-  // Private fields for avatar URL, nickname, and email address
   String _avatarPhotoURL = '';
   String _nickName = '';
+  String _decodedFluttermojiValue = ''; // New property for decoded value
 
-  // Getters for avatarPhotoURL, nickName, and emailAddress
   String get avatarPhotoURL => _avatarPhotoURL;
 
   String get nickName => _nickName;
 
-  // Setters for avatarPhotoURL, nickName, and emailAddress
+  String get decodedFluttermojiValue =>
+      _decodedFluttermojiValue; // Getter for decoded value
+
   set avatarPhotoURL(String url) {
     _avatarPhotoURL = url;
-    notifyListeners(); // Notify listeners when the value changes
+    notifyListeners();
   }
 
   set nickName(String name) {
     _nickName = name;
-    notifyListeners(); // Notify listeners when the value changes
+    notifyListeners();
   }
 
-  /// Saves the Flutter emoji avatar data for Google-authenticated users
+  /// Save avatar functionality
   Future<void> saveUserAvatarForGoogleAuth(
       String userId, BuildContext context) async {
     _setLoading(true);
     try {
-      // Encode the Fluttermoji attributes to JSON string
       String avatarData = await encodeMyJSON();
 
-      // Save the avatar data to Firestore
       await _firestore.collection('userByGoogleAuth').doc(userId).update({
         'avatarPhotoURL': avatarData,
       });
 
-      // Set the avatarPhotoURL value
       avatarPhotoURL = avatarData;
 
-      // Navigate to the GoogleUserNickNameScreen and pass userId
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return GoogleUserNickNameScreen(userId: userId); // Pass userId here
+        return GoogleUserNickNameScreen(userId: userId);
       }));
 
-      // Show success toast
       ToastHelper.showSuccessToast(
         context: context,
         message: "Avatar added successfully",
       );
     } catch (e) {
       print("Error saving avatar: $e");
-      // Show error toast
       ToastHelper.showErrorToast(
         context: context,
         message: "Avatar not added!",
@@ -79,64 +75,98 @@ class UserGoogleDetailsProvider extends ChangeNotifier {
     }
   }
 
-  // Define the TextEditingController for the nickname
   final TextEditingController nickNameController = TextEditingController();
 
-  /// Updates the nickname for Google-authenticated users
+  /// Update the nickname functionality
   Future<void> updateNickname(String userId, BuildContext context) async {
     _setLoading(true);
+
+    // Check if the nickname is empty before proceeding
+    if (nickNameController.text.trim().isEmpty) {
+      ToastHelper.showErrorToast(
+        context: context,
+        message:
+            "Nickname cannot be empty!", // Toast message for empty nickname
+      );
+      _setLoading(false); // Ensure loading state is reset
+      return; // Exit the function if nickname is empty
+    }
+
     try {
-      // Update the nickname in Firestore
       await _firestore.collection('userByGoogleAuth').doc(userId).update({
-        'nickName': nickNameController.text.trim(), // Use the controller's text
+        'nickName': nickNameController.text.trim(),
       });
 
-      // Set the nickName value
-      nickName = nickNameController.text.trim();
+      nickName = nickNameController.text.trim(); // Update the local variable
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return const BottomNav();
       }));
 
-      // Show success toast
       ToastHelper.showSuccessToast(
         context: context,
         message: "Nickname updated successfully",
       );
     } catch (e) {
       print("Error updating nickname: $e");
-      // Show error toast
       ToastHelper.showErrorToast(
         context: context,
         message: "Nickname not updated!",
       );
     } finally {
-      _setLoading(false);
+      _setLoading(false); // Ensure loading state is reset
     }
   }
 
-  /// Fetches all user data from the userByGuestAuth collection
+  /// Fetching the user details
   Future<void> fetchGoogleUserDetails(BuildContext context) async {
     _setLoading(true);
     try {
       QuerySnapshot querySnapshot =
-          await _firestore.collection('userByGuestAuth').get();
-      _guestUsers = querySnapshot.docs.map((doc) {
-        // Fetch user data and set emailAddress
+          await _firestore.collection('userByGoogleAuth').get();
+      _googleUsers = querySnapshot.docs.map((doc) {
         return UserModal.fromJson({
           'uid': doc.id,
           ...doc.data() as Map<String, dynamic>,
         });
       }).toList();
       notifyListeners(); // Notify listeners of data update
+
+      // Access the avatar photo URL from the user
+      for (var user in _googleUsers) {
+        String avatarData =
+            user.avatarPhotoURL ?? ''; // Retrieve the avatar data
+        if (avatarData.isNotEmpty) {
+          // Decode and save the avatar data as needed
+          _decodedFluttermojiValue = decodeFluttermojifromString(avatarData);
+
+          // Print the decoded SVG string for verification
+          print("Decoded Fluttermoji SVG: $_decodedFluttermojiValue");
+        }
+      }
     } catch (e) {
-      print("Error fetching guest user details: $e");
+      print("Error fetching user details: $e");
       ToastHelper.showErrorToast(
         context: context,
-        message: "Failed to fetch guest users.",
+        message: "Failed to fetch users.",
       );
     } finally {
       _setLoading(false);
+    }
+  }
+
+  String decodeFluttermojifromString(String encodedData) {
+    try {
+      // Decode the base64 encoded data into bytes
+      final decodedBytes = base64Decode(encodedData);
+
+      // Convert the bytes to a string which represents the SVG data
+      final svgString = utf8.decode(decodedBytes);
+
+      return svgString; // This is the decoded SVG string
+    } catch (e) {
+      print("Error decoding Fluttermoji SVG: $e");
+      return ''; // Return an empty string if decoding fails
     }
   }
 }

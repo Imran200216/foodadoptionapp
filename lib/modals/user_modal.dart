@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserModal {
   String? uid;
   String? userName;
@@ -15,7 +17,7 @@ class UserModal {
     this.avatarPhotoURL,
   });
 
-  /// Convert a UserModal object into a Map (for Fire store or JSON serialization)
+  /// Convert a UserModal object into a Map (for Firestore or JSON serialization)
   Map<String, dynamic> toJson() {
     return {
       'uid': uid,
@@ -27,7 +29,7 @@ class UserModal {
     };
   }
 
-  /// Create a UserModal object from a Map (for Fire store or JSON deserialization)
+  /// Create a UserModal object from a Map (for Firestore or JSON deserialization)
   factory UserModal.fromJson(Map<String, dynamic> json) {
     return UserModal(
       uid: json['uid'],
@@ -37,5 +39,13 @@ class UserModal {
       userPhotoURL: json['userPhotoURL'],
       avatarPhotoURL: json['avatarPhotoURL'],
     );
+  }
+
+  /// Method to decode the avatarPhotoURL from JSON string to a Map
+  Map<String, dynamic>? getAvatarOptions() {
+    if (avatarPhotoURL != null && avatarPhotoURL!.isNotEmpty) {
+      return jsonDecode(avatarPhotoURL!); // Decodes the JSON string into a Map
+    }
+    return null; // Return null if avatarPhotoURL is null or empty
   }
 }

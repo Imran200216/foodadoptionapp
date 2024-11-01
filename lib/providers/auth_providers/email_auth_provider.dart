@@ -135,7 +135,9 @@ class EmailAuthenticationProvider extends ChangeNotifier {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-              builder: (context) => const EmailUserAvatarScreen()),
+              builder: (context) => EmailUserAvatarScreen(
+                    userId: emailUser.uid,
+                  )),
           (Route<dynamic> route) => false,
         );
       }
@@ -214,6 +216,7 @@ class EmailAuthenticationProvider extends ChangeNotifier {
   }
 
   /// Sign out functionality
+  /// Sign out functionality
   Future<void> signOutWithEmail(BuildContext context) async {
     try {
       await _auth.signOut();
@@ -222,16 +225,22 @@ class EmailAuthenticationProvider extends ChangeNotifier {
       if (!debounceHelper.isDebounced()) {
         debounceHelper.activateDebounce(duration: const Duration(seconds: 2));
         ToastHelper.showSuccessToast(
-            context: context, message: "Sign Out Successful!");
+          context: context,
+          message: "Sign Out Successful!",
+        );
       }
 
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const GetStartedScreen()));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+      );
     } catch (e) {
       if (!debounceHelper.isDebounced()) {
         debounceHelper.activateDebounce(duration: const Duration(seconds: 2));
         ToastHelper.showErrorToast(
-            context: context, message: "Sign Out Failed!");
+          context: context,
+          message: "Sign Out Failed!",
+        );
       }
     }
   }

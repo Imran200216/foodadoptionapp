@@ -9,6 +9,7 @@ import 'package:foodadoptionapp/screens/auth_screens/register_screen.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_loading_animation.dart';
+import 'package:foodadoptionapp/widgets/custom_password_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_social_sign_in_btn.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -31,167 +32,171 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
         resizeToAvoidBottomInset: false,
-        body: Container(
-          margin: const EdgeInsets.only(
-            left: 20,
-            top: 30,
-            bottom: 30,
-            right: 20,
-          ),
-          child: Column(
-            children: [
-              FadeInAnimation(
-                delay: 1,
-                child: Text(
-                  "Welcome to FeedNeed",
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primaryColor,
-                    fontSize: 22,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-
-              /// Subtitle
-              FadeInAnimation(
-                delay: 1.3,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                  ),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(
+              left: 20,
+              top: 30,
+              bottom: 30,
+              right: 20,
+            ),
+            child: Column(
+              children: [
+                FadeInAnimation(
+                  delay: 1,
                   child: Text(
-                    textAlign: TextAlign.center,
-                    "Discover how your donations help feed families and reduce food waste",
+                    "Welcome to FeedNeed",
                     style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.subtitleColor,
-                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryColor,
+                      fontSize: 22,
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-
-              /// sign in btn for google
-              FadeInAnimation(
-                delay: 1.6,
-                child: CustomSocialSignInBtn(
-                  svgWidget: googleAuthProvider.isLoading
-                      ? CustomLoadingAnimation(
-                          loadingColor: AppColors.primaryColor,
-                          loadingSize: 20,
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/images/svg/google-auth.svg",
-                              height: 24,
-                              width: 24,
-                              fit: BoxFit.cover,
-                            ),
-                            const SizedBox(
-                              width: 14,
-                            ),
-                            Text(
-                              "Continue with Google",
-                              style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primaryColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                  onTap: () {
-                    /// sign up with google functionality
-                    googleAuthProvider.signUpWithGoogle(context);
-                  },
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
 
-              const SizedBox(
-                height: 30,
-              ),
-
-              FadeInAnimation(
-                delay: 1.9,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.subtitleColor,
-                        thickness: 1.0,
-                      ),
+                /// Subtitle
+                FadeInAnimation(
+                  delay: 1.3,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
                     ),
-                    const SizedBox(
-                      width: 9,
-                    ),
-                    Text(
-                      "Or continue with email",
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      "Discover how your donations help feed families and reduce food waste",
                       style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.w600,
                         color: AppColors.subtitleColor,
-                        fontSize: 14,
+                        fontSize: 16,
                       ),
                     ),
-                    const SizedBox(
-                      width: 9,
-                    ),
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.subtitleColor,
-                        thickness: 1.0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+
+                /// sign in btn for google
+                FadeInAnimation(
+                  delay: 1.6,
+                  child: CustomSocialSignInBtn(
+                    svgWidget: googleAuthProvider.isLoading
+                        ? CustomLoadingAnimation(
+                            loadingColor: AppColors.primaryColor,
+                            loadingSize: 20,
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/svg/google-auth.svg",
+                                height: 24,
+                                width: 24,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(
+                                width: 14,
+                              ),
+                              Text(
+                                "Continue with Google",
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                    onTap: () {
+                      /// sign up with google functionality
+                      googleAuthProvider.signUpWithGoogle(context);
+                    },
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
+                FadeInAnimation(
+                  delay: 1.9,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: AppColors.subtitleColor,
+                          thickness: 1.0,
+                        ),
                       ),
+                      const SizedBox(
+                        width: 9,
+                      ),
+                      Text(
+                        "Or continue with email",
+                        style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.subtitleColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 9,
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: AppColors.subtitleColor,
+                          thickness: 1.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
+                /// Email Address text field
+                FadeInAnimation(
+                  delay: 2.3,
+                  child: CustomIconTextField(
+                    controller: emailAuthProvider.loginEmailController,
+                    hintText: "Email Address",
+                    prefixIcon: Icon(
+                      Icons.alternate_email,
+                      color: AppColors.subtitleColor,
                     ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 30,
-              ),
-
-              /// Email Address text field
-              FadeInAnimation(
-                delay: 2.3,
-                child: CustomIconTextField(
-                  controller: emailAuthProvider.loginEmailController,
-                  hintText: "Email Address",
-                  prefixIcon: Icon(
-                    Icons.alternate_email,
-                    color: AppColors.subtitleColor,
                   ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 22,
-              ),
+                const SizedBox(
+                  height: 22,
+                ),
 
-              /// Password text field
-              FadeInAnimation(
-                delay: 2.6,
-                child: CustomIconTextField(
-                  controller: emailAuthProvider.loginPasswordController,
-                  hintText: "Password",
-                  prefixIcon: Icon(
-                    Icons.lock_outline,
-                    color: AppColors.subtitleColor,
+                /// Password text field
+
+                FadeInAnimation(
+                  delay: 2.6,
+                  child: CustomPasswordTextField(
+                    controller: emailAuthProvider.loginPasswordController,
+                    hintText: "Password",
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      color: AppColors.subtitleColor,
+                    ),
+                    fieldKey: "login password",
                   ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 22,
-              ),
-            ],
+                const SizedBox(
+                  height: 22,
+                ),
+              ],
+            ),
           ),
         ),
         bottomSheet: FadeInAnimation(

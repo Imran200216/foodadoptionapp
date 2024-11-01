@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class EmailUserAvatarScreen extends StatelessWidget {
   final String userId;
 
-  const EmailUserAvatarScreen({super.key, this.userId = ""});
+  const EmailUserAvatarScreen({super.key, required this.userId,});
 
   @override
   Widget build(BuildContext context) {

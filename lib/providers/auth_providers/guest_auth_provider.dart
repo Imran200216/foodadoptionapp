@@ -50,6 +50,14 @@ class GuestAuthenticationProvider extends ChangeNotifier {
         // Save the guest login state
         await _saveGuestLoginState(true);
 
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GuestUserAvatarScreen(userId: user.uid),
+          ),
+          (route) => false, // This removes all previous routes
+        );
+
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
           return GuestUserAvatarScreen(userId: user.uid);
@@ -101,9 +109,10 @@ class GuestAuthenticationProvider extends ChangeNotifier {
       // Clear guest login state
       await _saveGuestLoginState(false);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const GetStartedScreen();
-      }));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+      );
 
       ToastHelper.showSuccessToast(
         context: context,

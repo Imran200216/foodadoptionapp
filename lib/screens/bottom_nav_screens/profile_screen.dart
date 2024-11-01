@@ -12,6 +12,7 @@ import 'package:foodadoptionapp/screens/profile_sub_screens/my_feeds_screen.dart
 import 'package:foodadoptionapp/widgets/custom_cached_network_image.dart';
 import 'package:foodadoptionapp/widgets/custom_profile_list_tile.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -72,147 +73,164 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final guestAuthProvider = Provider.of<GuestAuthenticationProvider>(context);
 
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          top: 30,
-          bottom: 30,
-        ),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                textAlign: TextAlign.start,
-                "Profile",
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primaryColor,
-                  fontSize: 22,
+      body: LiquidPullToRefresh(
+        showChildOpacityTransition: true,
+        onRefresh: () async {
+          if (user.isAnonymous) {
+            /// Fetch guest user details
+            await userGuestDetailsProvider.fetchGuestUserDetails(context);
+          } else if (user.email != null) {
+            /// Fetch email user details
+            await userEmailDetailsProvider.fetchEmailUserDetails(context);
+          } else {
+            /// Fetch Google user details
+            await userGoogleDetailsProvider.fetchGoogleUserDetails(context);
+          }
+        },
+        color: AppColors.secondaryColor,
+        backgroundColor: AppColors.primaryColor,
+        child: Container(
+          margin: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 30,
+            bottom: 30,
+          ),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  textAlign: TextAlign.start,
+                  "Profile",
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryColor,
+                    fontSize: 22,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
+                const SizedBox(height: 30),
 
-              /// avatar image
-              CustomCachedImage(
-                height: 150,
-                width: 150,
-                fit: BoxFit.contain,
-                imageUrl: user?.isAnonymous == true
-                    ? userGuestDetailsProvider.avatarPhotoURL
-                    : (user?.email != null
-                        ? userEmailDetailsProvider.avatarPhotoURL
-                        : userGoogleDetailsProvider.avatarPhotoURL),
-                errorIconSize: 20,
-                errorIconColor: AppColors.primaryColor,
-                loadingIconColor: AppColors.primaryColor,
-                loadingIconSize: 20,
-              ),
-              const SizedBox(height: 12),
-
-              /// nickname
-              Text(
-                user!.isAnonymous == true
-                    ? userGuestDetailsProvider.nickName
-                    : (user.email != null
-                        ? userEmailDetailsProvider.nickName
-                        : userGoogleDetailsProvider.nickName),
-                textAlign: TextAlign.start,
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primaryColor,
-                  fontSize: 20,
+                /// avatar image
+                CustomCachedImage(
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.contain,
+                  imageUrl: user?.isAnonymous == true
+                      ? userGuestDetailsProvider.avatarPhotoURL
+                      : (user?.email != null
+                          ? userEmailDetailsProvider.avatarPhotoURL
+                          : userGoogleDetailsProvider.avatarPhotoURL),
+                  errorIconSize: 20,
+                  errorIconColor: AppColors.primaryColor,
+                  loadingIconColor: AppColors.primaryColor,
+                  loadingIconSize: 20,
                 ),
-              ),
-              SizedBox(
-                height: user.isAnonymous ? 18 : (user.email != null ? 6 : 6),
-              ),
+                const SizedBox(height: 12),
 
-              /// email address
-              user.isAnonymous
-                  ? const SizedBox()
-                  : user.email != null
-                      ? Column(
-                          children: [
-                            Text(
-                              /// email auth (email address)
-                              user.email ?? "No email",
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textFieldHintTextColor,
-                                fontSize: 16,
+                /// nickname
+                Text(
+                  user!.isAnonymous == true
+                      ? userGuestDetailsProvider.nickName
+                      : (user.email != null
+                          ? userEmailDetailsProvider.nickName
+                          : userGoogleDetailsProvider.nickName),
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primaryColor,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(
+                  height: user.isAnonymous ? 18 : (user.email != null ? 6 : 6),
+                ),
+
+                /// email address
+                user.isAnonymous
+                    ? const SizedBox()
+                    : user.email != null
+                        ? Column(
+                            children: [
+                              Text(
+                                /// email auth (email address)
+                                user.email ?? "No email",
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textFieldHintTextColor,
+                                  fontSize: 16,
+                                ),
                               ),
+                              const SizedBox(height: 20),
+                            ],
+                          )
+                        : Text(
+                            /// google auth (email address)
+                            user.email ?? "No email",
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textFieldHintTextColor,
+                              fontSize: 16,
                             ),
-                            const SizedBox(height: 20),
-                          ],
-                        )
-                      : Text(
-                          /// google auth (email address)
-                          user.email ?? "No email",
-                          textAlign: TextAlign.start,
-                          style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textFieldHintTextColor,
-                            fontSize: 16,
                           ),
-                        ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: const Color(0xFFEBF3FB),
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: const Color(0xFFEBF3FB),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /// my feeds
+                      CustomProfileListTile(
+                        tileTitle: "My Feeds",
+                        iconSize: 26,
+                        onTap: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const MyFeedsScreen();
+                          }));
+                        },
+                        prefixIcon: Icons.feed,
+                      ),
+
+                      /// about app
+                      CustomProfileListTile(
+                        tileTitle: "About app",
+                        iconSize: 26,
+                        onTap: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const AboutAppScreen();
+                          }));
+                        },
+                        prefixIcon: Icons.help,
+                      ),
+
+                      /// sign out
+                      CustomProfileListTile(
+                        tileTitle: "Logout",
+                        iconSize: 26,
+                        onTap: user.isAnonymous
+                            ? () => guestAuthProvider.signOut(context)
+                            : (user.email != null
+                                ? () =>
+                                    emailAuthProvider.signOutWithEmail(context)
+                                : () => googleAuthProvider.signOut(context)),
+                        prefixIcon: Icons.logout,
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    /// my feeds
-                    CustomProfileListTile(
-                      tileTitle: "My Feeds",
-                      iconSize: 26,
-                      onTap: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const MyFeedsScreen();
-                        }));
-                      },
-                      prefixIcon: Icons.feed,
-                    ),
-
-                    /// about app
-                    CustomProfileListTile(
-                      tileTitle: "About app",
-                      iconSize: 26,
-                      onTap: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const AboutAppScreen();
-                        }));
-                      },
-                      prefixIcon: Icons.help,
-                    ),
-
-                    /// sign out
-                    CustomProfileListTile(
-                      tileTitle: "Logout",
-                      iconSize: 26,
-                      onTap: user.isAnonymous
-                          ? () => guestAuthProvider.signOut(context)
-                          : (user.email != null
-                              ? () =>
-                                  emailAuthProvider.signOutWithEmail(context)
-                              : () => googleAuthProvider.signOut(context)),
-                      prefixIcon: Icons.logout,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -136,12 +136,18 @@ class UserGoogleDetailsProvider extends ChangeNotifier {
       for (var user in _googleUsers) {
         String avatarData =
             user.avatarPhotoURL ?? ''; // Retrieve the avatar data
+        String nickname = user.nickName ?? ''; // Retrieve the nickname
         if (avatarData.isNotEmpty) {
           // Decode and save the avatar data as needed
           _decodedFluttermojiValue = decodeFluttermojifromString(avatarData);
 
           // Print the decoded SVG string for verification
           print("Decoded Fluttermoji SVG: $_decodedFluttermojiValue");
+        }
+
+        if (nickname.isNotEmpty) {
+          nickName = nickname; // Update the local nickname property
+          notifyListeners();
         }
       }
     } catch (e) {

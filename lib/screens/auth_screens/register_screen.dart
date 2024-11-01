@@ -9,6 +9,7 @@ import 'package:foodadoptionapp/screens/auth_screens/login_screen.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_loading_animation.dart';
+import 'package:foodadoptionapp/widgets/custom_password_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_social_sign_in_btn.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -242,13 +243,14 @@ class RegisterScreen extends StatelessWidget {
                 /// Password text field
                 FadeInAnimation(
                   delay: 3.4,
-                  child: CustomIconTextField(
+                  child: CustomPasswordTextField(
                     controller: emailAuthProvider.registerPasswordController,
                     hintText: "Password",
                     prefixIcon: Icon(
                       Icons.lock_outline,
                       color: AppColors.subtitleColor,
                     ),
+                    fieldKey: "register password",
                   ),
                 ),
 
@@ -259,7 +261,8 @@ class RegisterScreen extends StatelessWidget {
                 /// Confirm Password text field
                 FadeInAnimation(
                   delay: 3.7,
-                  child: CustomIconTextField(
+                  child: CustomPasswordTextField(
+                    keyboardType: TextInputType.visiblePassword,
                     controller:
                         emailAuthProvider.registerConfirmPasswordController,
                     hintText: "Confirm Password",
@@ -267,6 +270,7 @@ class RegisterScreen extends StatelessWidget {
                       Icons.lock_outline,
                       color: AppColors.subtitleColor,
                     ),
+                    fieldKey: "register confirm password",
                   ),
                 ),
 

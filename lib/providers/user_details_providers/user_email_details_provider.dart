@@ -87,7 +87,7 @@ class UserEmailDetailsProvider extends ChangeNotifier {
       ToastHelper.showErrorToast(
         context: context,
         message:
-        "Nickname cannot be empty!", // Toast message for empty nickname
+            "Nickname cannot be empty!", // Toast message for empty nickname
       );
       _setLoading(false); // Ensure loading state is reset
       return; // Exit the function if nickname is empty
@@ -120,11 +120,12 @@ class UserEmailDetailsProvider extends ChangeNotifier {
   }
 
   /// Fetching the user details
+  /// Fetching the user details
   Future<void> fetchEmailUserDetails(BuildContext context) async {
     _setLoading(true);
     try {
       QuerySnapshot querySnapshot =
-      await _firestore.collection('userByGoogleAuth').get();
+          await _firestore.collection('userByEmailAuth').get();
       _emailUsers = querySnapshot.docs.map((doc) {
         return UserModal.fromJson({
           'uid': doc.id,
@@ -133,16 +134,23 @@ class UserEmailDetailsProvider extends ChangeNotifier {
       }).toList();
       notifyListeners(); // Notify listeners of data update
 
-      // Access the avatar photo URL from the user
+      // Access the avatar photo URL and nickname from the user
       for (var user in _emailUsers) {
         String avatarData =
             user.avatarPhotoURL ?? ''; // Retrieve the avatar data
+        String nickname = user.nickName ?? ''; // Retrieve the nickname
+
         if (avatarData.isNotEmpty) {
           // Decode and save the avatar data as needed
           _decodedFluttermojiValue = decodeFluttermojifromString(avatarData);
 
           // Print the decoded SVG string for verification
           print("Decoded Fluttermoji SVG: $_decodedFluttermojiValue");
+        }
+
+        if (nickname.isNotEmpty) {
+          nickName = nickname; // Update the local nickname property
+          notifyListeners();
         }
       }
     } catch (e) {

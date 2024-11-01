@@ -62,11 +62,12 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
 
         await _saveLoginState(true); // Save login state
 
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const BottomNav(),
           ),
+          (route) => false,
         );
 
         ToastHelper.showSuccessToast(
@@ -133,11 +134,12 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
 
           await _saveLoginState(true);
 
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => GoogleUserAvatarScreen(userId: user.uid),
             ),
+            (route) => false,
           );
 
           ToastHelper.showSuccessToast(

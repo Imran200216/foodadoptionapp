@@ -14,7 +14,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final String guestUserUid;
+
+  const LoginScreen({super.key, required this.guestUserUid});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
+        resizeToAvoidBottomInset: false,
         body: Container(
           margin: const EdgeInsets.only(
             left: 20,
@@ -81,34 +84,34 @@ class LoginScreen extends StatelessWidget {
                 child: CustomSocialSignInBtn(
                   svgWidget: googleAuthProvider.isLoading
                       ? CustomLoadingAnimation(
-                        loadingColor: AppColors.primaryColor,
-                        loadingSize: 20,
-                      )
+                          loadingColor: AppColors.primaryColor,
+                          loadingSize: 20,
+                        )
                       : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/images/svg/google-auth.svg",
-                            height: 24,
-                            width: 24,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(
-                            width: 14,
-                          ),
-                          Text(
-                            "Continue with Google",
-                            style: GoogleFonts.montserrat(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primaryColor,
-                              fontSize: 16,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/images/svg/google-auth.svg",
+                              height: 24,
+                              width: 24,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(
+                              width: 14,
+                            ),
+                            Text(
+                              "Continue with Google",
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primaryColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                   onTap: () {
-                    /// sign in with google functionality
-                    googleAuthProvider.signInWithGoogle(context);
+                    /// sign up with google functionality
+                    googleAuthProvider.signUpWithGoogle(context);
                   },
                 ),
               ),
@@ -231,7 +234,9 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return const ForgetPasswordScreen();
+                        return ForgetPasswordScreen(
+                          guestUserUid: guestUserUid,
+                        );
                       }));
                     },
                     child: Text(
@@ -260,7 +265,9 @@ class LoginScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const RegisterScreen();
+                            return RegisterScreen(
+                              guestUserUid: guestUserUid,
+                            );
                           }));
                         },
                         child: Text(

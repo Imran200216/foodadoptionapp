@@ -1,31 +1,53 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
+import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
 import 'package:foodadoptionapp/providers/user_details_providers/user_email_details_provider.dart';
 import 'package:foodadoptionapp/providers/user_details_providers/user_google_details_provider.dart';
 import 'package:foodadoptionapp/providers/user_details_providers/user_guest_details_provider.dart';
+import 'package:foodadoptionapp/screens/profile_sub_screens/about_app_screen.dart';
+import 'package:foodadoptionapp/screens/profile_sub_screens/my_feeds_screen.dart';
 import 'package:foodadoptionapp/widgets/custom_cached_network_image.dart';
 import 'package:foodadoptionapp/widgets/custom_profile_list_tile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Delaying the fetch operation until after the first build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.isAnonymous) {
+        // Fetch guest user details
+        Provider.of<UserGuestDetailsProvider>(context, listen: false)
+            .fetchGuestUserDetails(context);
+      } else if (user != null && user.email != null) {
+        // Fetch email user details
+        Provider.of<UserEmailDetailsProvider>(context, listen: false)
+            .fetchEmailUserDetails(context);
+      } else if (user != null) {
+        // Fetch Google user details
+        Provider.of<UserGoogleDetailsProvider>(context, listen: false)
+            .fetchGoogleUserDetails(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     /// current user
     final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null && user.isAnonymous) {
-      /// guest auth
-    } else if (user != null && user.email != null) {
-      /// email auth
-    } else {
-      /// google auth
-      Provider.of<UserGoogleDetailsProvider>(context, listen: false)
-          .fetchGoogleUserDetails(context);
-    }
 
     /// user google details provider
     final userGoogleDetailsProvider =
@@ -39,6 +61,16 @@ class ProfileScreen extends StatelessWidget {
     final userGuestDetailsProvider =
         Provider.of<UserGuestDetailsProvider>(context);
 
+    /// google auth provider
+    final googleAuthProvider =
+        Provider.of<GoogleAuthenticationProvider>(context);
+
+    /// email auth provider
+    final emailAuthProvider = Provider.of<EmailAuthenticationProvider>(context);
+
+    /// guest auth provider
+    final guestAuthProvider = Provider.of<GuestAuthenticationProvider>(context);
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.only(
@@ -51,7 +83,6 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              /// profile text
               Text(
                 textAlign: TextAlign.start,
                 "Profile",
@@ -61,54 +92,73 @@ class ProfileScreen extends StatelessWidget {
                   fontSize: 22,
                 ),
               ),
+              const SizedBox(height: 30),
 
-              const SizedBox(
-                height: 30,
-              ),
-
+              /// avatar image
               CustomCachedImage(
                 height: 150,
                 width: 150,
                 fit: BoxFit.contain,
-                imageUrl: userGoogleDetailsProvider.avatarPhotoURL,
+                imageUrl: user?.isAnonymous == true
+                    ? userGuestDetailsProvider.avatarPhotoURL
+                    : (user?.email != null
+                        ? userEmailDetailsProvider.avatarPhotoURL
+                        : userGoogleDetailsProvider.avatarPhotoURL),
                 errorIconSize: 20,
                 errorIconColor: AppColors.primaryColor,
                 loadingIconColor: AppColors.primaryColor,
                 loadingIconSize: 20,
               ),
+              const SizedBox(height: 12),
 
-              const SizedBox(
-                height: 12,
-              ),
-
-              /// person name text
+              /// nickname
               Text(
+                user?.isAnonymous == true
+                    ? userGuestDetailsProvider.nickName
+                    : (user?.email != null
+                        ? userEmailDetailsProvider.nickName
+                        : userGoogleDetailsProvider.nickName),
                 textAlign: TextAlign.start,
-                userGoogleDetailsProvider.nickName,
                 style: GoogleFonts.montserrat(
                   fontWeight: FontWeight.w700,
                   color: AppColors.primaryColor,
                   fontSize: 20,
                 ),
               ),
-              const SizedBox(
-                height: 6,
+              SizedBox(
+                height: user!.isAnonymous ? 18 : (user.email != null ? 6 : 6),
               ),
 
-              /// email address text
-              Text(
-                textAlign: TextAlign.start,
-                user!.email ?? "No email",
-                style: GoogleFonts.montserrat(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textFieldHintTextColor,
-                  fontSize: 16,
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
+              /// email address
+              user.isAnonymous
+                  ? const SizedBox()
+                  : user.email != null
+                      ? Column(
+                          children: [
+                            Text(
+                              /// email auth (email address)
+                              user.email ?? "No email",
+                              textAlign: TextAlign.start,
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textFieldHintTextColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        )
+                      : Text(
+                          /// google auth (email address)
+                          user.email ?? "No email",
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.montserrat(
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textFieldHintTextColor,
+                            fontSize: 16,
+                          ),
+                        ),
+              const SizedBox(height: 20),
 
               Container(
                 height: 200,
@@ -125,7 +175,12 @@ class ProfileScreen extends StatelessWidget {
                     CustomProfileListTile(
                       tileTitle: "My Feeds",
                       iconSize: 26,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const MyFeedsScreen();
+                        }));
+                      },
                       prefixIcon: Icons.feed,
                     ),
 
@@ -133,15 +188,25 @@ class ProfileScreen extends StatelessWidget {
                     CustomProfileListTile(
                       tileTitle: "About app",
                       iconSize: 26,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const AboutAppScreen();
+                        }));
+                      },
                       prefixIcon: Icons.help,
                     ),
 
-                    /// logout
+                    /// sign out
                     CustomProfileListTile(
                       tileTitle: "Logout",
                       iconSize: 26,
-                      onTap: () {},
+                      onTap: user.isAnonymous
+                          ? () => guestAuthProvider.signOut(context)
+                          : (user.email != null
+                              ? () =>
+                                  emailAuthProvider.signOutWithEmail(context)
+                              : () => googleAuthProvider.signOut(context)),
                       prefixIcon: Icons.logout,
                     ),
                   ],

@@ -27,7 +27,8 @@ class GuestAuthenticationProvider extends ChangeNotifier {
     return prefs.getBool('isGuestLoggedIn') ?? false;
   }
 
-  Future<User?> signInAnonymously(BuildContext context) async {
+  /// sign in with guest functionality
+  Future<User?> signInAnonymously(BuildContext context, String userId) async {
     _setLoading(true);
     try {
       // Sign in anonymously
@@ -51,7 +52,7 @@ class GuestAuthenticationProvider extends ChangeNotifier {
 
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
-          return const GuestUserAvatarScreen();
+          return GuestUserAvatarScreen(userId: user.uid);
         }));
 
         // Show success toast
@@ -86,10 +87,16 @@ class GuestAuthenticationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// sign out with guest functionality
   Future<void> signOut(BuildContext context) async {
     _setLoading(true);
     try {
-      await _auth.signOut();
+      User? user = _auth.currentUser;
+
+      // Delete the guest user account
+      if (user != null) {
+        await user.delete();
+      }
 
       // Clear guest login state
       await _saveGuestLoginState(false);

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/providers/user_details_providers/user_email_details_provider.dart';
 import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
-import 'package:foodadoptionapp/widgets/custom_cached_network_image.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
+import 'package:foodadoptionapp/widgets/custom_loading_animation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class EmailUserNickNameScreen extends StatelessWidget {
-  const EmailUserNickNameScreen({super.key});
+  final String userId;
+
+  const EmailUserNickNameScreen({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
+    /// user email details provider
+    final userEmailDetailsProvider =
+        Provider.of<UserEmailDetailsProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -34,30 +42,10 @@ class EmailUserNickNameScreen extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Container(
-                  height: 180,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.grey, width: 2),
-                  ),
-                  child: ClipOval(
-                    child: CustomCachedImage(
-                      imageUrl:
-                          "https://images.unsplash.com/photo-1503681965625-d2a39869ba05?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                      errorIconSize: 20,
-                      errorIconColor: AppColors.primaryColor,
-                      loadingIconColor: AppColors.primaryColor,
-                      loadingIconSize: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
 
                 /// nick name text field
                 CustomIconTextField(
+                  controller: userEmailDetailsProvider.nickNameController,
                   prefixIcon: Icon(
                     Icons.person_outline,
                     color: AppColors.subtitleColor,
@@ -70,28 +58,39 @@ class EmailUserNickNameScreen extends StatelessWidget {
                 ),
 
                 CustomAuthBtn(
-                  onTap: () {},
-                  btnWidget: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Next",
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.secondaryColor,
-                          fontSize: 16,
+                  onTap: () {
+                    /// update the nickname functionality
+                    userEmailDetailsProvider.updateNickname(
+                      userId,
+                      context,
+                    );
+                  },
+                  btnWidget: userEmailDetailsProvider.isLoading
+                      ? CustomLoadingAnimation(
+                          loadingColor: AppColors.secondaryColor,
+                          loadingSize: 20,
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Next",
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.secondaryColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 20,
+                              color: AppColors.secondaryColor,
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 20,
-                        color: AppColors.secondaryColor,
-                      ),
-                    ],
-                  ),
                 )
               ],
             ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/helpers/toast_helper.dart';
 import 'package:foodadoptionapp/modals/user_modal.dart';
 import 'package:foodadoptionapp/screens/avatar_screens/google_user_avatar_screen.dart';
+import 'package:foodadoptionapp/screens/bottom_nav.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,9 +65,7 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => GoogleUserAvatarScreen(
-              userId: user.uid,
-            ),
+            builder: (context) => const BottomNav(),
           ),
         );
 
@@ -87,6 +86,84 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
       ToastHelper.showErrorToast(
         context: context,
         message: "Google Sign-In error: $e",
+      );
+      return null;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
+  /// Sign up with Google (for new users)
+  Future<User?> signUpWithGoogle(BuildContext context) async {
+    _setLoading(true);
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        _setLoading(false); // User canceled the sign-in
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        // Check if the user already exists in Firestore
+        final userDoc =
+            await _firestore.collection('userByGoogleAuth').doc(user.uid).get();
+        if (!userDoc.exists) {
+          // New user: Save profile to Firestore and navigate to the avatar screen
+          UserModal userModal = UserModal(
+            uid: user.uid,
+            userName: user.displayName,
+            userEmail: user.email,
+            userPhotoURL: user.photoURL,
+          );
+          await _firestore
+              .collection('userByGoogleAuth')
+              .doc(user.uid)
+              .set(userModal.toJson());
+
+          await _saveLoginState(true);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GoogleUserAvatarScreen(userId: user.uid),
+            ),
+          );
+
+          ToastHelper.showSuccessToast(
+            context: context,
+            message: "Successfully signed up with Google",
+          );
+
+          return user;
+        } else {
+          ToastHelper.showErrorToast(
+            context: context,
+            message: "User already exists. Please sign in.",
+          );
+          return null;
+        }
+      } else {
+        ToastHelper.showErrorToast(
+          context: context,
+          message: "Google Sign-Up failed",
+        );
+        return null;
+      }
+    } catch (e) {
+      ToastHelper.showErrorToast(
+        context: context,
+        message: "Google Sign-Up error: $e",
       );
       return null;
     } finally {

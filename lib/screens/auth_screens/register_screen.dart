@@ -14,7 +14,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  final String guestUserUid;
+
+  const RegisterScreen({
+    super.key,
+    required this.guestUserUid,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,7 @@ class RegisterScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.secondaryColor,
+        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.only(
@@ -108,7 +114,10 @@ class RegisterScreen extends StatelessWidget {
                             ],
                           ),
                     onTap: () {
-                      guestAuthProvider.signInAnonymously(context);
+                      guestAuthProvider.signInAnonymously(
+                        context,
+                        guestUserUid,
+                      );
                     },
                   ),
                 ),
@@ -149,8 +158,8 @@ class RegisterScreen extends StatelessWidget {
                             ],
                           ),
                     onTap: () {
-                      /// sign up with google
-                      googleAuthProvider.signInWithGoogle(context);
+                      /// sign up with google (Mainly for new users)
+                      googleAuthProvider.signUpWithGoogle(context);
                     },
                   ),
                 ),
@@ -200,6 +209,7 @@ class RegisterScreen extends StatelessWidget {
                 FadeInAnimation(
                   delay: 2.8,
                   child: CustomIconTextField(
+                    controller: emailAuthProvider.nameController,
                     hintText: "User Name",
                     prefixIcon: Icon(
                       Icons.person_outline,
@@ -318,7 +328,9 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return const LoginScreen();
+                            return LoginScreen(
+                              guestUserUid: guestUserUid,
+                            );
                           }));
                         },
                         child: Text(

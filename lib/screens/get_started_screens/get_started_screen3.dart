@@ -4,7 +4,9 @@ import 'package:foodadoptionapp/screens/auth_screens/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class GetStartedScreen3 extends StatelessWidget {
-  const GetStartedScreen3({super.key});
+  final String userUid;
+
+  const GetStartedScreen3({super.key, this.userUid = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,9 @@ class GetStartedScreen3 extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
-                return const LoginScreen();
+                return LoginScreen(
+                  guestUserUid: userUid,
+                );
               }));
             },
             child: Container(

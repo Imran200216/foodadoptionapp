@@ -62,7 +62,11 @@ class GoogleUserNickNameScreen extends StatelessWidget {
 
                 CustomAuthBtn(
                   onTap: () {
-                    userGoogleDetailsProvider.updateNickname(userId, context);
+                    /// update nickname functionality
+                    userGoogleDetailsProvider.updateNickname(
+                      userId,
+                      context,
+                    );
                   },
                   btnWidget: userGoogleDetailsProvider.isLoading
                       ? CustomLoadingAnimation(

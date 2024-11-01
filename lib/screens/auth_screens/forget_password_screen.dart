@@ -10,7 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
-  const ForgetPasswordScreen({super.key});
+  final String guestUserUid;
+  const ForgetPasswordScreen({super.key, required this.guestUserUid});
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +139,9 @@ class ForgetPasswordScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return const LoginScreen();
+                      return  LoginScreen(
+                        guestUserUid: guestUserUid,
+                      );
                     }));
                   },
                   child: FadeInAnimation(

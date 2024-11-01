@@ -60,7 +60,9 @@ dependencies:
   status_view: ^0.0.2
   image_picker: ^1.1.2
   dropdown_textfield: ^1.2.0
-  url_launcher: ^6.3.1
+  insta_image_viewer: ^1.0.4
+  syncfusion_flutter_pdfviewer: ^27.1.57
+  file_picker: ^8.1.3
 
 
 

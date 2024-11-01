@@ -8,4 +8,5 @@ class AppColors {
   static Color textFieldHintTextColor = const Color(0xFFABAAAA);
   static Color successToastColor = const Color(0xFF02A75A);
   static Color failureToastColor = const Color(0xFFD92F54);
+  static Color subTitleColor = const Color(0xFF938B96);
 }

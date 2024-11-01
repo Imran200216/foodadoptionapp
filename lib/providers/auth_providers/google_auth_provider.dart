@@ -65,7 +65,7 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const BottomNav(),
+            builder: (context) => BottomNavBar(),
           ),
           (route) => false,
         );

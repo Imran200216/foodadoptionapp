@@ -200,7 +200,7 @@ class EmailAuthenticationProvider extends ChangeNotifier {
 
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const BottomNav()),
+            MaterialPageRoute(builder: (context) => BottomNavBar()),
             (Route<dynamic> route) => false);
       }
     } on FirebaseAuthException catch (e) {

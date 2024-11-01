@@ -8,6 +8,8 @@ class CustomIconTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onTap;
 
   const CustomIconTextField({
     super.key,
@@ -15,12 +17,16 @@ class CustomIconTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.suffixIcon,
+    this.onChanged,
     required this.hintText,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: onTap,
+      onChanged: onChanged,
       style: GoogleFonts.montserrat(
         color: AppColors.primaryColor,
         fontSize: 16,
@@ -36,12 +42,9 @@ class CustomIconTextField extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         prefixIcon: prefixIcon,
-        // Using the prefixIcon here
         suffixIcon: suffixIcon,
-        // Using the suffixIcon here if provided
         contentPadding:
             const EdgeInsets.symmetric(vertical: 14.0, horizontal: 12.0),
-        // Adjust padding to reduce height
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.textFieldBorderColor,

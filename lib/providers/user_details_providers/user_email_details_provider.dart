@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/helpers/toast_helper.dart';
@@ -101,7 +100,7 @@ class UserEmailDetailsProvider extends ChangeNotifier {
       nickName = nickNameController.text.trim(); // Update the local variable
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const BottomNav();
+        return BottomNavBar();
       }));
 
       ToastHelper.showSuccessToast(

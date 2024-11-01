@@ -4,8 +4,9 @@ import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
-import 'package:foodadoptionapp/screens/get_started_screen.dart';
 import 'package:foodadoptionapp/screens/bottom_nav.dart';
+import 'package:foodadoptionapp/screens/get_started_screen.dart';
+
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigate to BottomNav if logged in
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const BottomNav(),
+          builder: (context) =>  BottomNavBar(),
         ),
       );
     } else {

@@ -21,7 +21,7 @@ class EnrollFeedsScreen extends StatelessWidget {
             /// title
             Text(
               textAlign: TextAlign.start,
-              "Enrolls the foods",
+              "Add your enrolls",
               style: GoogleFonts.montserrat(
                 fontWeight: FontWeight.w700,
                 color: AppColors.primaryColor,

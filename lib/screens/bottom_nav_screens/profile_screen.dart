@@ -72,6 +72,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     /// guest auth provider
     final guestAuthProvider = Provider.of<GuestAuthenticationProvider>(context);
 
+    /// user dummy profile
+    const userDummyProfile =
+        "https://imgs.search.brave.com/Jr4F26FmavL_arvWQ51hTUtcX3UgHOWlH0F9fqfo5Cc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mcmVl/c3ZnLm9yZy9pbWcv/YWJzdHJhY3QtdXNl/ci1mbGF0LTQucG5n";
+
     return Scaffold(
       body: LiquidPullToRefresh(
         showChildOpacityTransition: true,
@@ -112,19 +116,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 30),
 
                 /// avatar image
-                CustomCachedImage(
-                  height: 150,
-                  width: 150,
-                  fit: BoxFit.contain,
-                  imageUrl: user?.isAnonymous == true
-                      ? userGuestDetailsProvider.avatarPhotoURL
-                      : (user?.email != null
-                          ? userEmailDetailsProvider.avatarPhotoURL
-                          : userGoogleDetailsProvider.avatarPhotoURL),
-                  errorIconSize: 20,
-                  errorIconColor: AppColors.primaryColor,
-                  loadingIconColor: AppColors.primaryColor,
-                  loadingIconSize: 20,
+                ClipOval(
+                  child: CustomCachedImage(
+                    height: 150,
+                    width: 150,
+                    fit: BoxFit.contain,
+                    imageUrl: user?.isAnonymous == true
+                        ? userGuestDetailsProvider.avatarPhotoURL
+                        : (user?.email != null
+                            ? user!.photoURL ?? userDummyProfile
+                            : user!.photoURL ?? userDummyProfile),
+                    errorIconSize: 20,
+                    errorIconColor: AppColors.primaryColor,
+                    loadingIconColor: AppColors.primaryColor,
+                    loadingIconSize: 20,
+                  ),
                 ),
                 const SizedBox(height: 12),
 
@@ -133,8 +139,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   user!.isAnonymous == true
                       ? userGuestDetailsProvider.nickName
                       : (user.email != null
-                          ? userEmailDetailsProvider.nickName
-                          : userGoogleDetailsProvider.nickName),
+                          ? user.displayName ?? "No name"
+                          : user.displayName ?? "No name"),
                   textAlign: TextAlign.start,
                   style: GoogleFonts.montserrat(
                     fontWeight: FontWeight.w700,

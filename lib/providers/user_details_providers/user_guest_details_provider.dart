@@ -100,7 +100,7 @@ class UserGuestDetailsProvider extends ChangeNotifier {
       nickName = nickNameController.text.trim(); // Update the local variable
 
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const BottomNav();
+        return BottomNavBar();
       }));
 
       ToastHelper.showSuccessToast(

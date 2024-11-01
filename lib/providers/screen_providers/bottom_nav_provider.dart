@@ -1,11 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:flutter/widgets.dart';
 
 class BottomNavProvider extends ChangeNotifier {
-  PersistentTabController controller = PersistentTabController(initialIndex: 0);
+  int _currentIndex = 0;
 
-  void changeTabIndex(int index) {
-    controller.index = index;
-    notifyListeners();
+  int get currentIndex => _currentIndex;
+
+  void setIndex(int index) {
+    _currentIndex = index;
+    notifyListeners(); // This should trigger UI rebuild
+  }
+
+  void navigateToIndex(BuildContext context, int index) {
+    setIndex(index);
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 }

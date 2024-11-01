@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/providers/screen_providers/home_carousel_provider.dart';
+import 'package:foodadoptionapp/providers/user_details_providers/user_guest_details_provider.dart';
+import 'package:foodadoptionapp/widgets/custom_cached_network_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,6 +20,17 @@ class HomeScreen extends StatelessWidget {
       "https://i.pinimg.com/564x/20/38/47/20384789a69a1218aa86e37270b8aee1.jpg",
       "https://i.pinimg.com/564x/41/df/e6/41dfe6d62c15e8e17090f4424ef7e9f4.jpg",
     ];
+
+    /// user dummy profile
+    const userDummyProfile =
+        "https://imgs.search.brave.com/Jr4F26FmavL_arvWQ51hTUtcX3UgHOWlH0F9fqfo5Cc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mcmVl/c3ZnLm9yZy9pbWcv/YWJzdHJhY3QtdXNl/ci1mbGF0LTQucG5n";
+
+    /// current user
+    final user = FirebaseAuth.instance.currentUser;
+
+    /// user guest details provider
+    final userGuestDetailsProvider =
+        Provider.of<UserGuestDetailsProvider>(context);
 
     return Scaffold(
       body: Container(
@@ -42,18 +56,21 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                /// avatar photo url
-                Container(
-                  height: 66,
-                  width: 66,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?q=80&w=1966&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                      ),
-                      fit: BoxFit.cover,
-                    ),
+                /// avatar image
+                ClipOval(
+                  child: CustomCachedImage(
+                    height: 52,
+                    width: 52,
+                    fit: BoxFit.contain,
+                    imageUrl: user?.isAnonymous == true
+                        ? userGuestDetailsProvider.avatarPhotoURL
+                        : (user?.email != null
+                            ? user!.photoURL ?? userDummyProfile
+                            : user!.photoURL ?? userDummyProfile),
+                    errorIconSize: 14,
+                    errorIconColor: AppColors.primaryColor,
+                    loadingIconColor: AppColors.primaryColor,
+                    loadingIconSize: 14,
                   ),
                 ),
               ],

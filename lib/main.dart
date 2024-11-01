@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:foodadoptionapp/firebase_options.dart';
+import 'package:foodadoptionapp/providers/add_homes_provider/add_homes_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/foreget_email_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
@@ -85,6 +86,11 @@ class MyApp extends StatelessWidget {
           /// password visibility provider
           ChangeNotifierProvider(
             create: (context) => PasswordVisibilityProvider(),
+          ),
+
+          /// add home provider
+          ChangeNotifierProvider(
+            create: (context) => AddHomesProvider(),
           ),
         ],
         builder: (context, child) {

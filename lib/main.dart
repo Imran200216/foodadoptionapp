@@ -8,6 +8,7 @@ import 'package:foodadoptionapp/providers/auth_providers/foreget_email_auth_prov
 import 'package:foodadoptionapp/providers/auth_providers/google_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/guest_auth_provider.dart';
 import 'package:foodadoptionapp/providers/auth_providers/password_visibility_provider.dart';
+import 'package:foodadoptionapp/providers/enroll_feeds_provider/enroll_feeds_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/bottom_nav_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/get_started_provider.dart';
 import 'package:foodadoptionapp/providers/screen_providers/home_carousel_provider.dart';
@@ -91,6 +92,11 @@ class MyApp extends StatelessWidget {
           /// add home provider
           ChangeNotifierProvider(
             create: (context) => AddHomesProvider(),
+          ),
+
+          /// enroll feeds provider
+          ChangeNotifierProvider(
+            create: (context) => EnrollFeedsProvider(),
           ),
         ],
         builder: (context, child) {

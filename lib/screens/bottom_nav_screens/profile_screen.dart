@@ -113,9 +113,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               /// nickname
               Text(
-                user?.isAnonymous == true
+                user!.isAnonymous == true
                     ? userGuestDetailsProvider.nickName
-                    : (user?.email != null
+                    : (user.email != null
                         ? userEmailDetailsProvider.nickName
                         : userGoogleDetailsProvider.nickName),
                 textAlign: TextAlign.start,
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SizedBox(
-                height: user!.isAnonymous ? 18 : (user.email != null ? 6 : 6),
+                height: user.isAnonymous ? 18 : (user.email != null ? 6 : 6),
               ),
 
               /// email address

@@ -22,7 +22,7 @@ class GuestAuthenticationProvider extends ChangeNotifier {
   }
 
   /// Check if the user is logged in as a guest
-  Future<bool> isGuestLoggedIn() async {
+  Future<bool> isUserGuestLoggedIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isGuestLoggedIn') ?? false;
   }

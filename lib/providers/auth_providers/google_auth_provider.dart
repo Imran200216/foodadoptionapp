@@ -205,7 +205,7 @@ class GoogleAuthenticationProvider extends ChangeNotifier {
   }
 
   /// Check if user is logged in
-  Future<bool> isUserLoggedIn() async {
+  Future<bool> isUserGoogleLoggedIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLoggedIn') ?? false;
   }

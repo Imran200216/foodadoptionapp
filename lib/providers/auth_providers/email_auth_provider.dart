@@ -235,4 +235,10 @@ class EmailAuthenticationProvider extends ChangeNotifier {
       }
     }
   }
+
+  /// Function to check if the user is logged in
+  Future<bool> isUserEmailLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLoggedIn') ?? false; // Return false if not found
+  }
 }

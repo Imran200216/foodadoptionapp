@@ -273,16 +273,21 @@ class AddHomesScreen extends StatelessWidget {
 
               /// add homes btn
               CustomAuthBtn(
-                btnWidget: Text(
-                  "Add Homes",
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondaryColor,
-                    fontSize: 16,
-                  ),
-                ),
+                btnWidget: addHomesProvider.isLoading
+                    ? CustomLoadingAnimation(
+                        loadingColor: AppColors.secondaryColor,
+                        loadingSize: 20,
+                      )
+                    : Text(
+                        "Add Homes",
+                        style: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.secondaryColor,
+                          fontSize: 16,
+                        ),
+                      ),
                 onTap: () {
-                  /// add homes functionality
+                  addHomesProvider.addHomeToFireStore(context);
                 },
               ),
             ],

@@ -63,6 +63,8 @@ dependencies:
   insta_image_viewer: ^1.0.4
   syncfusion_flutter_pdfviewer: ^27.1.57
   file_picker: ^8.1.3
+  permission_handler: ^11.3.1
+
 
 
 

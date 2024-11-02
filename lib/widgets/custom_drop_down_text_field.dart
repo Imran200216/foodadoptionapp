@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,7 +6,7 @@ class CustomDropDownTextField extends StatelessWidget {
   final String hintText;
   final List<String> items;
   final String? initialValue;
-  final ValueSetter<String>? onChanged; // Ensure the type is String
+  final ValueSetter<String>? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
 
@@ -23,39 +22,28 @@ class CustomDropDownTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropDownTextField(
-      textStyle: GoogleFonts.montserrat(
-        color: AppColors.primaryColor,
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-      ),
-      initialValue: initialValue != null
-          ? DropDownValueModel(name: initialValue!, value: initialValue!)
-          : null,
-      clearOption: true,
-      enableSearch: false,
-      dropDownItemCount: items.length,
-      textFieldDecoration: InputDecoration(
-        contentPadding:
-            const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+    return DropdownButtonFormField<String>(
+      value: initialValue,
+      icon: suffixIcon ?? const Icon(Icons.arrow_drop_down),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
         hintText: hintText,
         hintStyle: GoogleFonts.montserrat(
-          color: AppColors.subtitleColor,
+          color: Colors.grey, // Replace with your subtitle color
           fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
         prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.textFieldBorderColor,
+            color: AppColors.textFieldBorderColor, // Replace with your textField border color
             width: 1.2,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.primaryColor,
+            color: AppColors.primaryColor, // Replace with your primary color
             width: 1.2,
           ),
           borderRadius: BorderRadius.circular(10),
@@ -64,19 +52,20 @@ class CustomDropDownTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
       ),
-      listTextStyle: GoogleFonts.montserrat(
-        color: AppColors.primaryColor,
+      style: GoogleFonts.montserrat(
+        color: Colors.black, // Replace with your primary color
         fontSize: 16,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
       ),
-      dropDownList: items
-          .map((item) => DropDownValueModel(name: item, value: item))
-          .toList(),
+      items: items.map((item) {
+        return DropdownMenuItem<String>(
+          value: item,
+          child: Text(item),
+        );
+      }).toList(),
       onChanged: (value) {
-        // Ensure that value is non-null and is of the correct type
-        if (value.value is String) {
-          onChanged?.call(value
-              .value); // Call the onChanged callback with the selected value
+        if (value != null) {
+          onChanged?.call(value);
         }
       },
     );

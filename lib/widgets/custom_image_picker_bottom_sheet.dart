@@ -41,11 +41,10 @@ class CustomImagePickerBottomSheet extends StatelessWidget {
                   SizedBox(width: size.width * 0.03),
                   Text(
                     'Take Photo',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
                       fontSize: size.width * 0.046,
                       color: Colors.black,
-                      fontFamily: "NunitoSans",
                     ),
                   ),
                 ],
@@ -68,7 +67,7 @@ class CustomImagePickerBottomSheet extends StatelessWidget {
                   Text(
                     'Pick from Gallery',
                     style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       fontSize: size.width * 0.046,
                       color: Colors.black,
                     ),

@@ -96,19 +96,6 @@ class AddHomesProvider extends ChangeNotifier {
 
   /// Method to pick a PDF file from the file system
   Future<void> pickPdf(BuildContext context) async {
-    // Request permission for file access
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      status = await Permission.storage.request();
-      if (!status.isGranted) {
-        ToastHelper.showErrorToast(
-          context: context,
-          message: "Storage permission is required to pick PDFs.",
-        );
-        return;
-      }
-    }
-
     // Pick the PDF file using FilePicker
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -116,12 +103,13 @@ class AddHomesProvider extends ChangeNotifier {
     );
 
     if (result != null) {
-      homePdf = File(result.files.single.path!); // Ensure the path is non-null
+      homePdf =
+          File(result.files.single.path!); // Update the provider's homePdf
       ToastHelper.showSuccessToast(
         context: context,
         message: "PDF picked successfully!",
       );
-      notifyListeners();
+      notifyListeners(); // Notify listeners to rebuild UI with the new PDF
     } else {
       ToastHelper.showErrorToast(
         context: context,
@@ -157,25 +145,47 @@ class AddHomesProvider extends ChangeNotifier {
 
   /// Method to upload PDF to Firebase Storage and return the URL
   Future<String?> uploadPdf(String homeName, BuildContext context) async {
-    if (homePdf == null) return null; // Return null if no PDF is selected
-
-    try {
-      Reference storageRef =
-          _storage.ref().child('homes/$homeName/pdfs/${DateTime.now()}.pdf');
-      UploadTask uploadTask = storageRef.putFile(homePdf!);
-      TaskSnapshot taskSnapshot = await uploadTask;
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      return downloadUrl; // Return the PDF URL
-    } catch (e) {
+    if (homePdf == null) {
       ToastHelper.showErrorToast(
         context: context,
-        message: "Failed to upload PDF: $e",
+        message: "No PDF file selected.",
+      );
+      return null; // Return if no PDF is selected
+    }
+
+    try {
+      // Ensure the file exists and is accessible
+      if (!await homePdf!.exists()) {
+        ToastHelper.showErrorToast(
+          context: context,
+          message: "Selected PDF file does not exist or is inaccessible.",
+        );
+        return null;
+      }
+
+      // Define the storage reference
+      Reference storageRef =
+          _storage.ref().child('homes/$homeName/pdfs/${DateTime.now()}.pdf');
+
+      // Upload the PDF file
+      UploadTask uploadTask = storageRef.putFile(homePdf!);
+      TaskSnapshot taskSnapshot = await uploadTask;
+
+      // Retrieve and return the download URL
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      // Log the error in more detail
+      print("Error uploading PDF: $e");
+      ToastHelper.showErrorToast(
+        context: context,
+        message: "Failed to upload PDF: ${e.toString()}",
       );
       return null; // Return null if upload fails
     }
   }
 
-  /// Add homes to Firestore
+  /// Add homes to Fire store
   Future<void> addHomeToFireStore(BuildContext context) async {
     _setLoading(true); // Set loading to true
     try {
@@ -186,10 +196,7 @@ class AddHomesProvider extends ChangeNotifier {
       String homeNeed =
           _selectedValue ?? "Default Need"; // Provide default value if null
       List<String> imageUrls = await uploadImages(homeName, context);
-      String? pdfUrl = await uploadPdf(
-        homeName,
-        context,
-      ); // Upload PDF
+      String? pdfUrl = await uploadPdf(homeName, context); // Upload PDF
 
       // Create a HomeModel instance
       HomeModel newHome = HomeModel(

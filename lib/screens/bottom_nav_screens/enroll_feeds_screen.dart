@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:foodadoptionapp/constants/colors.dart';
+import 'package:foodadoptionapp/widgets/custom_auth_btn.dart';
 import 'package:foodadoptionapp/widgets/custom_description_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_drop_down_text_field.dart';
 import 'package:foodadoptionapp/widgets/custom_icon_text_field.dart';
@@ -38,6 +39,7 @@ class EnrollFeedsScreen extends StatelessWidget {
                 height: 30,
               ),
 
+              /// images
               DottedBorder(
                 color: Colors.grey.shade400,
                 strokeWidth: 2,
@@ -111,10 +113,6 @@ class EnrollFeedsScreen extends StatelessWidget {
 
               /// enroller type
               CustomDropDownTextField(
-                prefixIcon: Icon(
-                  Icons.category_outlined,
-                  color: AppColors.subtitleColor,
-                ),
                 hintText: "Enroller type*",
                 items: const [
                   "Personal",
@@ -123,10 +121,46 @@ class EnrollFeedsScreen extends StatelessWidget {
                   "Non Governmental Organization",
                   "Specified Trust"
                 ],
+                prefixIcon: Icon(
+                  Icons.category_outlined,
+                  color: AppColors.subtitleColor,
+                ),
               ),
 
-              /// enroller profile
+              const SizedBox(
+                height: 30,
+              ),
 
+              /// enroll date
+              CustomIconTextField(
+                hintText: "Enter enrolling date",
+                prefixIcon: Icon(
+                  Icons.food_bank_outlined,
+                  color: AppColors.subTitleColor,
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.calendar_month_outlined,
+                    color: AppColors.subTitleColor,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 60),
+
+              /// add enroller details btn
+              CustomAuthBtn(
+                btnWidget: Text(
+                  "Add enrollment",
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.secondaryColor,
+                    fontSize: 16,
+                  ),
+                ),
+                onTap: () {},
+              ),
             ],
           ),
         ),

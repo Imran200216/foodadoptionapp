@@ -41,46 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA83-HfGKDPrrb9D-Z9y9r4cpNrwcfoKHc',
-    appId: '1:963314008421:web:29b6d8482ae3147ace218c',
-    messagingSenderId: '963314008421',
-    projectId: 'fooddenotation',
-    authDomain: 'fooddenotation.firebaseapp.com',
-    storageBucket: 'fooddenotation.firebasestorage.app',
+    apiKey: 'AIzaSyAei5GFRw6wzYCdZZivHGnacP4b2nrycWc',
+    appId: '1:775312250904:web:91f7480c4faf0794af8b6d',
+    messagingSenderId: '775312250904',
+    projectId: 'feedneedy-d4c84',
+    authDomain: 'feedneedy-d4c84.firebaseapp.com',
+    storageBucket: 'feedneedy-d4c84.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBPL63exss_qP5Nocp-vr6s_tHbSvbOFPo',
-    appId: '1:963314008421:android:015cff398981958ace218c',
-    messagingSenderId: '963314008421',
-    projectId: 'fooddenotation',
-    storageBucket: 'fooddenotation.firebasestorage.app',
+    apiKey: 'AIzaSyACxVNOP0jxpckct9TcnMrQVVYrPh8yFwI',
+    appId: '1:775312250904:android:97cda21be94a6f05af8b6d',
+    messagingSenderId: '775312250904',
+    projectId: 'feedneedy-d4c84',
+    storageBucket: 'feedneedy-d4c84.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAxZ3k5MlfVO12XyGfveSSDbn8nQAQldJY',
-    appId: '1:963314008421:ios:7c0606aa1e080c48ce218c',
-    messagingSenderId: '963314008421',
-    projectId: 'fooddenotation',
-    storageBucket: 'fooddenotation.firebasestorage.app',
+    apiKey: 'AIzaSyA1tjRg6OYo9Fx-iMUz9BLVeCblYzP72DU',
+    appId: '1:775312250904:ios:5c12072b31b6f1f3af8b6d',
+    messagingSenderId: '775312250904',
+    projectId: 'feedneedy-d4c84',
+    storageBucket: 'feedneedy-d4c84.firebasestorage.app',
     iosBundleId: 'com.needyfeed.fooddonationapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAxZ3k5MlfVO12XyGfveSSDbn8nQAQldJY',
-    appId: '1:963314008421:ios:e5eb96b87b8a81ddce218c',
-    messagingSenderId: '963314008421',
-    projectId: 'fooddenotation',
-    storageBucket: 'fooddenotation.firebasestorage.app',
+    apiKey: 'AIzaSyA1tjRg6OYo9Fx-iMUz9BLVeCblYzP72DU',
+    appId: '1:775312250904:ios:39cf03f06e3c4722af8b6d',
+    messagingSenderId: '775312250904',
+    projectId: 'feedneedy-d4c84',
+    storageBucket: 'feedneedy-d4c84.firebasestorage.app',
     iosBundleId: 'com.example.foodadoptionapp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyA83-HfGKDPrrb9D-Z9y9r4cpNrwcfoKHc',
-    appId: '1:963314008421:web:09e024b93ee257dace218c',
-    messagingSenderId: '963314008421',
-    projectId: 'fooddenotation',
-    authDomain: 'fooddenotation.firebaseapp.com',
-    storageBucket: 'fooddenotation.firebasestorage.app',
+    apiKey: 'AIzaSyAei5GFRw6wzYCdZZivHGnacP4b2nrycWc',
+    appId: '1:775312250904:web:4264a3edc95a731caf8b6d',
+    messagingSenderId: '775312250904',
+    projectId: 'feedneedy-d4c84',
+    authDomain: 'feedneedy-d4c84.firebaseapp.com',
+    storageBucket: 'feedneedy-d4c84.firebasestorage.app',
   );
+
 }
